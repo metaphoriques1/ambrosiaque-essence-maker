@@ -1,30 +1,33 @@
 import { useLang } from './LanguageContext';
 import { t } from '@/lib/i18n';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export default function CollectionSection() {
   const { lang } = useLang();
   const tr = t(lang);
+  const ref = useScrollReveal();
 
   return (
-    <section id="collection" className="py-24 md:py-32 bg-secondary">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-20">
-          <div className="w-12 h-px gold-gradient mx-auto mb-8" />
-          <h2 className="font-serif text-3xl md:text-4xl font-light tracking-wide text-foreground">
-            {tr.collection.sectionTitle}
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 max-w-5xl mx-auto">
+    <section id="collection" className="py-[200px] bg-background" ref={ref}>
+      <div className="px-6 max-w-3xl mx-auto">
+        <p className="reveal text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-body font-extralight text-center mb-24">
+          {tr.collection.sectionTitle}
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-24 gap-x-20">
           {tr.collection.products.map((product, i) => (
-            <div key={i} className="group cursor-pointer text-center">
-              <div className="w-px h-12 gold-gradient mx-auto mb-6 opacity-40" />
-              <h3 className="font-serif text-xl md:text-2xl font-light tracking-wide gold-text mb-4">
+            <div
+              key={i}
+              className="reveal text-center"
+              style={{ transitionDelay: `${i * 0.15}s` }}
+            >
+              <h3 className="font-serif text-2xl md:text-3xl font-light tracking-[0.08em] text-foreground/80 mb-4">
                 {product.name}
               </h3>
-              <p className="text-sm text-muted-foreground font-body font-light leading-relaxed mb-6">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground font-body font-extralight mb-8">
                 {product.desc}
               </p>
-              <span className="text-xs tracking-[0.25em] uppercase text-primary/70 hover:text-primary transition-colors duration-500 font-body gold-border border-b pb-1">
+              <span className="text-[10px] tracking-[0.3em] uppercase font-body font-light text-primary link-underline pb-1 cursor-pointer">
                 {tr.collection.viewDetail}
               </span>
             </div>

@@ -1,30 +1,41 @@
 import { useLang } from './LanguageContext';
 import { t } from '@/lib/i18n';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export default function PhilosophySection() {
   const { lang } = useLang();
   const tr = t(lang);
+  const ref = useScrollReveal();
 
   const paragraphs = [tr.philosophy.p1, tr.philosophy.p2, tr.philosophy.p3, tr.philosophy.p4, tr.philosophy.p5];
 
   return (
-    <section id="philosophy" className="py-24 md:py-32 bg-background">
-      <div className="container mx-auto px-6 max-w-3xl text-center">
-        <div className="w-12 h-px gold-gradient mx-auto mb-8" />
-        <h2 className="font-serif text-3xl md:text-4xl font-light tracking-wide mb-16 gold-text">
+    <section id="philosophy" className="py-[200px] bg-background" ref={ref}>
+      <div className="px-6 max-w-[600px] mx-auto text-center">
+        <p className="reveal text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-body font-extralight mb-20">
           {tr.philosophy.sectionTitle}
-        </h2>
-        <div className="space-y-8">
+        </p>
+
+        <div className="space-y-12">
           {paragraphs.map((p, i) => (
             <p
               key={i}
-              className="text-muted-foreground font-body font-light leading-relaxed text-base md:text-lg italic"
+              className="reveal font-serif text-base md:text-lg font-light leading-[2em] text-foreground/60 italic"
+              style={{ transitionDelay: `${i * 0.15}s` }}
             >
-              {p}
+              {i === 0 ? (
+                <>
+                  <span className="text-3xl md:text-4xl font-normal text-primary not-italic leading-[0] float-left mr-2 mt-1">
+                    {p.charAt(0)}
+                  </span>
+                  {p.slice(1)}
+                </>
+              ) : (
+                p
+              )}
             </p>
           ))}
         </div>
-        <div className="w-12 h-px gold-gradient mx-auto mt-16" />
       </div>
     </section>
   );
