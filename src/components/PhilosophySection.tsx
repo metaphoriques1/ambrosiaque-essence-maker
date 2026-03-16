@@ -11,7 +11,7 @@ export default function PhilosophySection() {
     <section id="philosophy" className="py-24 md:py-32 bg-background">
       <div className="container mx-auto px-6 max-w-3xl text-center">
         <div className="w-12 h-px gold-gradient mx-auto mb-8" />
-        <h2 className="font-serif text-3xl md:text-4xl font-light tracking-wide mb-16 text-foreground">
+        <h2 className="font-serif text-3xl md:text-4xl font-light tracking-wide mb-16 gold-text">
           {tr.philosophy.sectionTitle}
         </h2>
         <div className="space-y-8">
