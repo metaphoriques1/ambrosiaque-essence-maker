@@ -16,19 +16,18 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/30">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <a href="#hero" className="font-serif text-2xl tracking-[0.2em] uppercase gold-text font-semibold">
+        <a href="#hero" className="font-serif text-2xl tracking-[0.2em] uppercase gold-emboss font-semibold">
           Ambrosiaque
         </a>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300"
+              className="text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               {l.label}
             </a>
@@ -39,7 +38,7 @@ export default function Navbar() {
                 key={l}
                 onClick={() => setLang(l)}
                 className={`text-xs tracking-wider px-2 py-1 transition-colors duration-300 ${
-                  lang === l ? 'text-accent font-medium' : 'text-muted-foreground hover:text-foreground'
+                  lang === l ? 'text-primary font-medium' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {langLabels[l]}
@@ -48,13 +47,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile toggle */}
         <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {open && (
         <div className="md:hidden bg-background border-b border-border px-6 pb-6 animate-fade-in">
           {links.map((l) => (
@@ -62,7 +59,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block py-3 text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+              className="block py-3 text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-primary transition-colors"
             >
               {l.label}
             </a>
@@ -73,7 +70,7 @@ export default function Navbar() {
                 key={l}
                 onClick={() => { setLang(l); setOpen(false); }}
                 className={`text-xs tracking-wider px-2 py-1 ${
-                  lang === l ? 'text-accent font-medium' : 'text-muted-foreground'
+                  lang === l ? 'text-primary font-medium' : 'text-muted-foreground'
                 }`}
               >
                 {langLabels[l]}
