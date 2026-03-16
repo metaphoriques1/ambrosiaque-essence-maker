@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLang } from './LanguageContext';
-import { t, langLabels, type Lang } from '@/lib/i18n';
-import { Menu, X } from 'lucide-react';
+import { t, type Lang } from '@/lib/i18n';
 
 export default function Navbar() {
   const { lang, setLang } = useLang();
@@ -15,70 +14,95 @@ export default function Navbar() {
     { href: '#contact', label: tr.nav.contact },
   ];
 
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/30">
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <a href="#hero" className="font-serif text-2xl tracking-[0.2em] uppercase gold-emboss font-semibold">
-          Ambrosiaque
-        </a>
+  const langs: Lang[] = ['fr', 'en', 'es', 'de', 'ru'];
 
-        <div className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-primary transition-colors duration-300"
+  return (
+    <>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm">
+        <div className="flex items-center justify-between py-5 px-6 md:px-10">
+          <a
+            href="#hero"
+            className="font-serif text-lg md:text-xl tracking-[0.2em] text-primary font-light"
+          >
+            Ambrosiaque
+          </a>
+
+          <div className="flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-1">
+              {langs.map((l, i) => (
+                <span key={l} className="flex items-center">
+                  <button
+                    onClick={() => setLang(l)}
+                    className={`text-[10px] tracking-[0.15em] uppercase transition-colors duration-500 ${
+                      lang === l ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                  {i < langs.length - 1 && (
+                    <span className="text-[10px] text-muted-foreground/40 mx-1">/</span>
+                  )}
+                </span>
+              ))}
+            </div>
+
+            <button
+              className="flex flex-col gap-[5px] group"
+              onClick={() => setOpen(true)}
+              aria-label="Menu"
             >
-              {l.label}
-            </a>
-          ))}
-          <div className="flex items-center gap-1 ml-4 border-l border-border pl-4">
-            {(Object.keys(langLabels) as Lang[]).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`text-xs tracking-wider px-2 py-1 transition-colors duration-300 ${
-                  lang === l ? 'text-primary font-medium' : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {langLabels[l]}
-              </button>
-            ))}
+              <span className="block w-5 h-px bg-foreground transition-all duration-300" />
+              <span className="block w-5 h-px bg-foreground transition-all duration-300" />
+              <span className="block w-5 h-px bg-foreground transition-all duration-300" />
+            </button>
           </div>
         </div>
+      </nav>
 
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
+      {/* Full-screen overlay menu */}
       {open && (
-        <div className="md:hidden bg-background border-b border-border px-6 pb-6 animate-fade-in">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block py-3 text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-primary transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
-          <div className="flex gap-2 pt-3 border-t border-border mt-3">
-            {(Object.keys(langLabels) as Lang[]).map((l) => (
-              <button
-                key={l}
-                onClick={() => { setLang(l); setOpen(false); }}
-                className={`text-xs tracking-wider px-2 py-1 ${
-                  lang === l ? 'text-primary font-medium' : 'text-muted-foreground'
-                }`}
+        <div className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center">
+          <button
+            className="absolute top-5 right-6 md:right-10"
+            onClick={() => setOpen(false)}
+            aria-label="Close"
+          >
+            <span className="block w-5 h-px bg-foreground rotate-45 translate-y-[0.5px]" />
+            <span className="block w-5 h-px bg-foreground -rotate-45 -translate-y-[0.5px]" />
+          </button>
+
+          <div className="flex flex-col items-center gap-10">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="font-serif text-2xl md:text-3xl font-light tracking-[0.15em] text-foreground/70 hover:text-primary transition-colors duration-500"
               >
-                {langLabels[l]}
-              </button>
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1 mt-16">
+            {langs.map((l, i) => (
+              <span key={l} className="flex items-center">
+                <button
+                  onClick={() => { setLang(l); setOpen(false); }}
+                  className={`text-[10px] tracking-[0.15em] uppercase transition-colors duration-500 ${
+                    lang === l ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {l.toUpperCase()}
+                </button>
+                {i < langs.length - 1 && (
+                  <span className="text-[10px] text-muted-foreground/40 mx-1">/</span>
+                )}
+              </span>
             ))}
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 }
